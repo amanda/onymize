@@ -1,0 +1,2 @@
+# onymize
+synonyms &amp; antonyms
