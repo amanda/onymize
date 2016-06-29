@@ -1,5 +1,12 @@
-'''switches adjectives in a text with their synonyms,
-or antonyms'''
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+'''
+TODO:
+    - change tokenizer to hold onto punctuation
+    - put online
+'''
+
 
 from nltk.corpus import wordnet as wn
 from nltk import word_tokenize, pos_tag
@@ -17,7 +24,7 @@ def find_syns(tokenized_text):
     return synonyms
 
 def find_ants(tokenized_text):
-    '''(str) -> {adjective: [antonyms]}'''
+    '''(str) -> {adjective: antonym}'''
     antonyms = {}
     tagged = pos_tag(tokenized_text)
     # TODO: clean up below?
@@ -26,7 +33,7 @@ def find_ants(tokenized_text):
             for syn in wn.synsets(t[0]):
                 for l in syn.lemmas():
                     if l.antonyms():
-                        antonyms[t[0]] = l.antonyms()[0].name() # TODO check if only 1
+                        antonyms[t[0]] = l.antonyms()[0].name() # TODO get all not just first one
     return antonyms
 
 
@@ -36,4 +43,8 @@ def antonymize(text):
     tokenized = word_tokenize(text)
     ants = find_ants(tokenized)
     for w in tokenized:
-        pass
+        if w in ants:
+            index = tokenized.index(w)
+            tokenized.pop(index)
+            tokenized.insert(index, ants[w])
+    return ' '.join(tokenized)
