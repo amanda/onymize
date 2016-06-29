@@ -9,7 +9,8 @@ TODO:
 
 
 from nltk.corpus import wordnet as wn
-from nltk import word_tokenize, pos_tag
+from nltk import pos_tag
+from nltk.tokenize import RegexpTokenizer
 
 
 def find_syns(tokenized_text):
@@ -40,7 +41,8 @@ def find_ants(tokenized_text):
 def antonymize(text):
     '''iterates through text and writes an
     antonym over each adjective...it's slow'''
-    tokenized = word_tokenize(text)
+    tokenizer = RegexpTokenizer('\s+', gaps=True)
+    tokenized = tokenizer.tokenize(text)
     ants = find_ants(tokenized)
     for w in tokenized:
         if w in ants:
